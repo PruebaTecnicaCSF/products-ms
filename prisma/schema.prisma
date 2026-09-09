@@ -1,0 +1,27 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"] 
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+  schemas  = ["prod"] 
+}
+
+model Product {
+  id        String   @id @default(uuid()) 
+  name      String
+  unitPrice     Float
+  lastCostPrice     Float
+  stock     Int
+
+  rowStatus Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([rowStatus])
+  @@map("product")   
+  @@schema("prod")   
+}
